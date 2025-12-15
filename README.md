@@ -80,7 +80,7 @@ Create `.env` file with your payment gateway credentials:
 
 ```env
 # PayTechUZ License Key (Required)
-PAYTECH_LICENSE_API_KEY=your_license_api_key # you can get it from @muhammadali_me on Telegram
+PAYTECH_LICENSE_API_KEY=your_license_api_key # you can get it from https://docs.pay-tech.uz/console or @muhammadali_me on Telegram
 
 # Payme Configuration
 PAYME_ID=your_payme_id
