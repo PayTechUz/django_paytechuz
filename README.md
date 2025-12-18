@@ -1,86 +1,127 @@
 # PayTech UZ Django 💳
 
-Simple Django REST API for creating orders with **Payme** and **Click** payment integration.
+Django REST API loyihasi **Payme**, **Click** va **Atmos** to'lov tizimlarini integratsiyalash uchun. **PaymentService** klassi orqali to'lovlarni yaratish va webhook'lar orqali to'lov holatini kuzatish.
 
 ## 🚀 Quick Start
 
-1. **Install dependencies:**
+### 1. Virtual Environment yaratish
+
+```bash
+python3 -m venv venv
+source venv/bin/activate  # MacOS/Linux
+# yoki
+venv\Scripts\activate     # Windows
+```
+
+### 2. Dependencies o'rnatish
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2. **Setup environment variables:**
+### 3. Environment variables sozlash
 
 ```bash
 cp .env.example .env
-# Edit .env with your payment gateway credentials
+# .env faylini to'lov tizimlaringiz ma'lumotlari bilan to'ldiring
 ```
 
-3. **Run migrations:**
+### 4. Database migratsiyalari
 
 ```bash
 python manage.py migrate
 ```
 
-4. **Start server:**
+### 5. Serverni ishga tushirish
 
 ```bash
 python manage.py runserver
 ```
 
-Visit: http://127.0.0.1:8000/
+Server manzil: **http://127.0.0.1:8000/**
 
-## 📋 API Usage
+---
 
-### Create Order
+## 📋 API Endpoints
 
-**POST** `/api/orders/create`
+### 1. Order yaratish
+
+**Endpoint:** `POST /api/orders/create`
+
+**Request Body:**
 
 ```json
 {
-  "product_name": "Test Product",
-  "amount": "100.00",
-  "payment_type": "payme" // click, atmos
+  "product_name": "Premium Subscription",
+  "amount": "50000.00",
+  "payment_type": "payme"
 }
 ```
 
-**Response:**
+**Response (Success - 201):**
 
 ```json
 {
-  "order_id": 1,
-  "payment_url": "https://test.paycom.uz/...",
-  "payment_type": "payme", // click, atmos
-  "amount": "100.00",
-  "status": "pending"
+  "invoice_id": 42,
+  "payment_url": "https://checkout.paycom.uz/..."
 }
 ```
 
 **Payment Types:**
+- `payme` - Payme to'lov tizimi
+- `click` - Click to'lov tizimi
+- `atmos` - Atmos to'lov tizimi
 
-- `payme` - Payme payment gateway
-- `click` - Click payment gateway
+---
 
-## 🧪 Test with cURL
+## 🧪 cURL Examples
+
+### Payme to'lovi yaratish
 
 ```bash
 curl -X POST http://127.0.0.1:8000/api/orders/create \
   -H "Content-Type: application/json" \
   -d '{
-    "product_name": "Test Product",
-    "amount": "100.00",
-    "payment_type": "payme" // click, atmos
+    "product_name": "Premium Plan",
+    "amount": "50000.00",
+    "payment_type": "payme"
   }'
 ```
 
+### Click to'lovi yaratish
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/orders/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "product_name": "Standard Plan",
+    "amount": "30000.00",
+    "payment_type": "click"
+  }'
+```
+
+### Atmos to'lovi yaratish
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/orders/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "product_name": "Basic Plan",
+    "amount": "20000.00",
+    "payment_type": "atmos"
+  }'
+```
+
+---
+
 ## ⚙️ Configuration
 
-Create `.env` file with your payment gateway credentials:
+`.env` fayli namunasi:
 
 ```env
-# PayTechUZ License Key (Required)
-PAYTECH_LICENSE_API_KEY=your_license_api_key # you can get it from https://docs.pay-tech.uz/console or @muhammadali_me on Telegram
+# PayTechUZ License Key (Majburiy)
+PAYTECH_LICENSE_API_KEY=your_license_api_key
+# License olish: https://docs.pay-tech.uz/console yoki @muhammadali_me (Telegram)
 
 # Payme Configuration
 PAYME_ID=your_payme_id
@@ -96,15 +137,45 @@ CLICK_SECRET_KEY=your_secret_key
 ATMOS_CONSUMER_KEY=your_atmos_consumer_key
 ATMOS_CONSUMER_SECRET=your_atmos_consumer_secret
 ATMOS_STORE_ID=your_atmos_store_id
-ATMOS_TERMINAL_ID=your_atmos_terminal_id # optional
+ATMOS_TERMINAL_ID=your_atmos_terminal_id  # optional
 ATMOS_API_KEY=your_atmos_api_key
 ATMOS_TEST_MODE=True
 ```
 
-## ✨ Features
+---
 
-- 💳 **Payme** payment gateway integration
-- 🔗 **Click** payment gateway integration
-- 🚀 Simple REST API
-- ✅ Order management
-- 🔒 Input validation & error handling
+## 🪝 Webhook Endpoints
+
+To'lov tizimlaridan keladigan webhook'larni qabul qilish uchun:
+
+- **Payme Webhook:** `POST /api/payments/payme/webhook/`
+- **Click Webhook:** `POST /api/payments/click/webhook/`
+- **Atmos Webhook:** `POST /api/payments/atmos/webhook/`
+
+Webhook'lar avtomatik ravishda order holatini yangilaydi:
+- `successfully_payment()` - To'lov muvaffaqiyatli amalga oshirilganda
+- `cancelled_payment()` - To'lov bekor qilinganda
+
+---
+
+
+
+## 📚 Additional Resources
+
+- [PayTech UZ Documentation](https://docs.pay-tech.uz)
+- [Payme API Docs](https://developer.paycom.uz)
+- [Click API Docs](https://docs.click.uz)
+
+---
+
+## 📝 License
+
+MIT License
+
+---
+
+## 👨‍💻 Support
+
+Savol yoki yordam kerak bo'lsa:
+- Telegram: [@muhammadali_me](https://t.me/muhammadali_me)
+- Documentation: [docs.pay-tech.uz](https://docs.pay-tech.uz)

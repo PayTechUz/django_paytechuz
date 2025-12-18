@@ -33,8 +33,5 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
 class PaymentLinkResponseSerializer(serializers.Serializer):
     """Serializer for payment link response."""
-    order_id = serializers.IntegerField()
+    invoice_id = serializers.IntegerField()
     payment_url = serializers.URLField()
-    payment_type = serializers.CharField()
-    amount = serializers.DecimalField(max_digits=12, decimal_places=2)
-    status = serializers.CharField()
