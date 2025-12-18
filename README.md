@@ -53,7 +53,7 @@ Server manzil: **http://127.0.0.1:8000/**
 ```json
 {
   "product_name": "Premium Subscription",
-  "amount": "50000.00",
+  "amount": 50000,
   "payment_type": "payme"
 }
 ```
